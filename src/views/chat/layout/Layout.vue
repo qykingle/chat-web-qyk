@@ -35,7 +35,7 @@ const getContainerClass = computed(() => {
 </script>
 
 <template>
-  <div class="h-full dark:bg-[#24272e] transition-all" :class="[isMobile ? 'p-0' : 'p-4']">
+  <div class="main-height dark:bg-[#24272e] transition-all" :class="[isMobile ? 'p-0' : 'p-4']">
     <div class="h-full overflow-hidden" :class="getMobileClass">
       <NLayout class="z-40 transition" :class="getContainerClass" has-sider>
         <Sider />
@@ -49,3 +49,9 @@ const getContainerClass = computed(() => {
     <Permission :visible="needPermission" />
   </div>
 </template>
+
+<style scoped>
+.main-height {
+	height: calc(100vh - 54px);
+}
+</style>

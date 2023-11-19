@@ -41,11 +41,11 @@ const themeOptions: { label: string; key: Theme; icon: string }[] = [
     key: 'auto',
     icon: 'ri:contrast-line',
   },
-  {
-    label: 'Light',
-    key: 'light',
-    icon: 'ri:sun-foggy-line',
-  },
+  // {
+  //   label: 'Light',
+  //   key: 'light',
+  //   icon: 'ri:sun-foggy-line',
+  // },
   {
     label: 'Dark',
     key: 'dark',
@@ -55,10 +55,10 @@ const themeOptions: { label: string; key: Theme; icon: string }[] = [
 
 const languageOptions: { label: string; key: Language; value: Language }[] = [
   { label: '简体中文', key: 'zh-CN', value: 'zh-CN' },
-  { label: '繁體中文', key: 'zh-TW', value: 'zh-TW' },
+  // { label: '繁體中文', key: 'zh-TW', value: 'zh-TW' },
   { label: 'English', key: 'en-US', value: 'en-US' },
-  { label: '한국어', key: 'ko-KR', value: 'ko-KR' },
-  { label: 'Русский язык', key: 'ru-RU', value: 'ru-RU' },
+  // { label: '한국어', key: 'ko-KR', value: 'ko-KR' },
+  // { label: 'Русский язык', key: 'ru-RU', value: 'ru-RU' },
 ]
 
 function updateUserInfo(options: Partial<UserInfo>) {
