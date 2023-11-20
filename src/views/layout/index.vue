@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
 import { h, ref, watch } from 'vue'
-import { NAvatar, NIcon, NMenu } from 'naive-ui'
+import { NAvatar, NDropdown, NIcon, NMenu, useMessage } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
 import {
   ChatboxEllipsesOutline,
   ColorPaletteOutline,
   ColorWandSharp,
+  LogOutOutline,
 } from '@vicons/ionicons5'
 import { RouterLink, useRouter } from 'vue-router'
+import type { UserInfo } from '@/store/modules/user/helper'
+import { t } from '@/locales'
+import { useUserStore } from '@/store'
+
+const userStore = useUserStore()
+const ms = useMessage()
 
 const router = useRouter()
 
@@ -17,6 +24,12 @@ function renderIcon(icon: Component) {
 }
 
 const activeKey = ref<string>('chat')
+
+const options = [{
+  label: '退出登录',
+  key: 'logout',
+  icon: renderIcon(LogOutOutline),
+}]
 
 // function updateActiveKeyByRouter() {
 //   const { name } = useRouter().currentRoute.value
@@ -71,13 +84,31 @@ const menuOptions: MenuOption[] = [
     icon: renderIcon(ColorWandSharp),
   },
 ]
+
+function updateUserInfo(options: Partial<UserInfo>) {
+  userStore.updateUserInfo(options)
+  ms.success(t('common.success'))
+}
+
+function handleSelect(key: string) {
+  switch (key) {
+    case 'logout':
+      updateUserInfo({
+        name: '',
+      })
+      router.push({ name: 'Login' })
+      break
+  }
+}
 </script>
 
 <template>
   <div class="p-1.5 shadow flex justify-between items-center">
     <NMenu v-model:value="activeKey" mode="horizontal" :options="menuOptions" />
-    <div class="flex align-center mr-4">
-      <NAvatar size="small" round src="https://avatars.githubusercontent.com/u/17662844?v=4" />
+    <div class="flex align-center justify-center mr-4 cursor-pointer">
+      <NDropdown :options="options" @select="handleSelect">
+        <NAvatar size="medium" round src="https://avatars.githubusercontent.com/u/17662844?v=4" />
+      </NDropdown>
     </div>
   </div>
 </template>
