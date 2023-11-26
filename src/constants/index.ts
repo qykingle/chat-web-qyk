@@ -457,3 +457,150 @@ export const toolConfig = [
     type: 0,
   },
 ]
+
+export interface ITagTool {
+  id: string
+  text: string
+  type: number
+  url?: string
+}
+export const otherTools = [
+  {
+    id: 'JSON',
+    text: 'JSON工具集',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/json',
+  },
+  {
+    id: 'JSONCheck',
+    text: 'JSON校验',
+    type: 1,
+    url: 'https://tool.chinaz.com/tools/jsonformat.aspx',
+  },
+  {
+    id: 'serialize',
+    text: '序列化',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/serialize',
+  },
+  {
+    id: 'IPQuery',
+    text: 'IP查询',
+    type: 1,
+    url: 'https://qifu.baidu.com/?activeKey=SEARCH_IP&trace=apistore_ip_aladdin&activeId=SEARCH_IP_ADDRESS',
+  },
+  {
+    id: 'timestamp',
+    text: '时间戳转换',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/time/timestamp',
+  },
+  {
+    id: 'URLEncode/Decode',
+    text: 'URL编解码',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/url/encoder',
+  },
+  {
+    id: 'UnicodeEncode/Decode',
+    text: 'Unicode编解码',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/unicode/encoder',
+  },
+  {
+    id: 'Base64Encode/Decode',
+    text: 'Base64编解码',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/base64/encoder',
+  },
+  {
+    id: 'HtmlEncode/Decode',
+    text: 'Html编解码',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/html',
+  },
+  {
+    id: 'qrCode',
+    text: '二维码生成/解析',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/qrCode/generate',
+  },
+  {
+    id: 'regex',
+    text: '正则校验',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/regex',
+  },
+  {
+    id: 'color',
+    text: '颜色转换',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/color',
+  },
+  {
+    id: 'TextDiff',
+    text: '文本差异对比',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/diffs',
+  },
+  {
+    id: 'picTranslate',
+    text: '图片翻译',
+    type: 1,
+    url: 'https://ai.youdao.com/product-fanyi-picture.s',
+  },
+  {
+    id: 'picSearch',
+    text: '图片搜索',
+    type: 1,
+    url: 'https://www.google.com.hk/imghp',
+  },
+  {
+    id: 'picCompress',
+    text: '图片压缩裁剪',
+    type: 1,
+    url: 'https://www.iloveimg.com/zh-cn/crop-image/crop-png',
+  },
+  {
+    id: 'aes',
+    text: 'AES加解密',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/encrypt/aes/encrypt',
+  },
+  {
+    id: 'rsa',
+    text: 'RSA加解密',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/encrypt/rsa/encrypt',
+  },
+  {
+    id: 'timeCal',
+    text: '时间计算',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/time/calculator',
+  },
+  {
+    id: 'radix',
+    text: '进制转换',
+    type: 1,
+    url: 'https://ctool.dev/tool.html#/tool/radix',
+  },
+  {
+    id: 'Pillow',
+    text: '终端配置助手',
+    type: 1,
+    url: 'https://pillow.sankuai.com/#/home',
+  },
+  {
+    id: 'JSON2TS',
+    text: 'JSON2TS',
+    type: 1,
+    url: 'https://transform.tools/json-to-typescript',
+  },
+  {
+    id: 'AST',
+    text: '前端AST转换',
+    type: 1,
+    url: 'https://astexplorer.net/',
+  },
+]

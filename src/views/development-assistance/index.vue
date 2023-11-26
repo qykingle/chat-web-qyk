@@ -1,14 +1,22 @@
 <script setup lang="ts">
-import { NAvatar, NEllipsis, NInput, NModal, useMessage } from 'naive-ui'
+import { NAvatar, NDivider, NEllipsis, NInput, NModal, NTag, useMessage } from 'naive-ui'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useChatStore } from '@/store'
-import { toolConfig } from '@/constants'
+import type { ITagTool } from '@/constants'
+import { otherTools, toolConfig } from '@/constants'
 const message = useMessage()
 const showModal = ref(false)
 const value = ref('')
 const selectedItem = ref({} as SQLQueryDefinition)
 const chatStore = useChatStore()
+
+const tageType = ['default', 'primary', 'info', 'success', 'warning', 'error']
+
+// 生成一个start到end之间的随机整数
+function random(start: number, end: number) {
+  return Math.floor(Math.random() * (end - start) + start)
+}
 
 const router = useRouter()
 
@@ -59,14 +67,18 @@ const title = computed(() => {
 const placeholder = computed(() => {
   return selectedItem?.value?.input?.[0]?.placeholder || ''
 })
+const handleTagClick = (tag: ITagTool) => {
+  // windows.open(tag.url)
+  window.open(tag.url, '_blank')
+}
 </script>
 
 <template>
-  <div class="p-16 flex flex-wrap justify-center">
-    <div v-for="item in toolConfig" :key="item.id" class="flex p-4 border rounded-lg m-3  items-center w-[400px] cursor-pointer" @click="() => handleClick(item)">
+  <div class="p-16 flex flex-wrap ">
+    <div v-for="item in toolConfig" :key="item.id" class="flex p-4 border rounded-lg m-3  items-center w-[450px] cursor-pointer" @click="() => handleClick(item)">
       <NAvatar
         round
-        :size="100"
+        :size="120"
         :src="item.icon"
       />
       <div class="pl-4">
@@ -77,6 +89,14 @@ const placeholder = computed(() => {
           {{ item.desc }}
         </NEllipsis>
       </div>
+    </div>
+  </div>
+  <NDivider />
+  <div class="pl-10 pr-10 flex flex-wrap">
+    <div v-for="(item) in otherTools" :key="item.id" class="cursor-pointer">
+      <NTag class="m-2 tag-text" :type="tageType[random(0, 6)]" size="large" @click="() => handleTagClick(item)">
+        {{ item.text }}
+      </NTag>
     </div>
   </div>
   <NModal
@@ -102,5 +122,7 @@ const placeholder = computed(() => {
 </template>
 
 <style scoped>
-
+.tag-text {
+	cursor: pointer;
+}
 </style>
