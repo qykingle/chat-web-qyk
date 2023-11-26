@@ -11,15 +11,22 @@ const userStore = useUserStore()
 const ms = useMessage()
 
 const value = ref('QianYongKang')
+const password = ref('')
 const loading = ref(false)
 
 function goChat() {
   loading.value = true
-  updateUserInfo({
-    name: value.value,
-  })
   setTimeout(() => {
     loading.value = false
+    const isValidPassword = (/^[A-Za-z0-9\-]+$/).test(password.value)
+    if (!isValidPassword) {
+      ms.error(t('common.passwordError'))
+      return
+    }
+    updateUserInfo({
+      name: value.value,
+      password: password.value,
+    })
     router.push({
       path: '/chat',
     })
@@ -58,7 +65,7 @@ function updateUserInfo(options: Partial<UserInfo>) {
             密码
           </NInputGroupLabel>
           <NInput
-            v-model:value="value" size="large" type="password" placeholder="请输入密码"
+            v-model:value="password" size="large" type="password" placeholder="请输入OpenAI API Key"
             show-password-on="mousedown"
           />
         </NInputGroup>

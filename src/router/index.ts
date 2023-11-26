@@ -18,14 +18,24 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path: '/draw',
-    name: 'Draw',
-    component: () => import('@/views/draw/index.vue'),
+    path: '/code-translator',
+    name: 'CodeTransform',
+    component: () => import('@/views/code-transform/index.vue'),
+  },
+  {
+    path: '/lang-translator',
+    name: 'LangTransform',
+    component: () => import('@/views/lang-transform/index.vue'),
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/index.vue'),
+  },
+  {
+    path: '/development-assistance',
+    name: 'DevelopmentAssistance',
+    component: () => import('@/views/development-assistance/index.vue'),
   },
   {
     path: '/404',

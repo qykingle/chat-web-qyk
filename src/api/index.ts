@@ -23,6 +23,7 @@ export function fetchChatConfig<T = any>() {
 export function fetchChatAPIProcess<T = any>(
   params: {
     prompt: string
+    openAPIKey?: string
     options?: { conversationId?: string; parentMessageId?: string }
     signal?: GenericAbortSignal
     onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void },
@@ -33,6 +34,7 @@ export function fetchChatAPIProcess<T = any>(
   let data: Record<string, any> = {
     prompt: params.prompt,
     options: params.options,
+    openAPIKey: params.openAPIKey,
   }
 
   if (authStore.isChatGPTAPI) {

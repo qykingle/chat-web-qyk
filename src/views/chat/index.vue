@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import type { Ref } from 'vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { NAutoComplete, NButton, NInput, useDialog, useMessage } from 'naive-ui'
 import html2canvas from 'html2canvas'
@@ -12,12 +12,12 @@ import { useUsingContext } from './hooks/useUsingContext'
 import HeaderComponent from './components/Header/index.vue'
 import { HoverButton, SvgIcon } from '@/components/common'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-import { useChatStore, usePromptStore } from '@/store'
+import { useChatStore, usePromptStore, useUserStore } from '@/store'
 import { fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
 
 let controller = new AbortController()
-
+const userStore = useUserStore()
 const openLongReply = import.meta.env.VITE_GLOB_OPEN_LONG_REPLY === 'true'
 
 const route = useRoute()
@@ -33,6 +33,7 @@ const { usingContext, toggleUsingContext } = useUsingContext()
 
 const { uuid } = route.params as { uuid: string }
 
+const router = useRouter()
 const dataSources = computed(() => chatStore.getChatByUuid(+uuid))
 const conversationList = computed(() => dataSources.value.filter(item => (!item.inversion && !!item.conversationOptions)))
 
@@ -52,8 +53,8 @@ dataSources.value.forEach((item, index) => {
     updateChatSome(+uuid, index, { loading: false })
 })
 
-function handleSubmit() {
-  onConversation()
+async function handleSubmit() {
+  await onConversation()
 }
 
 async function onConversation() {
@@ -109,6 +110,7 @@ async function onConversation() {
       await fetchChatAPIProcess<Chat.ConversationResponse>({
         prompt: message,
         options,
+        openAPIKey: userStore.userInfo.password,
         signal: controller.signal,
         onDownloadProgress: ({ event }) => {
           const xhr = event.target
@@ -451,10 +453,14 @@ const footerClass = computed(() => {
   return classes
 })
 
-onMounted(() => {
+onMounted(async () => {
   scrollToBottom()
   if (inputRef.value && !isMobile.value)
     inputRef.value?.focus()
+  if (route.query.text) {
+    prompt.value = route.query.text as string
+    await handleSubmit()
+  }
 })
 
 onUnmounted(() => {

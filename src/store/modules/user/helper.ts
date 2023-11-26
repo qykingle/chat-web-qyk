@@ -5,6 +5,7 @@ const LOCAL_NAME = 'userStorage'
 export interface UserInfo {
   avatar: string
   name: string
+  password: string
   description: string
 }
 
@@ -18,6 +19,7 @@ export function defaultSetting(): UserState {
       avatar: 'https://avatars.githubusercontent.com/u/17662844?v=4',
       name: 'QianYongKang',
       description: 'coding',
+      password: '',
     },
   }
 }

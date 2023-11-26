@@ -4,9 +4,11 @@ import { h, ref, watch } from 'vue'
 import { NAvatar, NDropdown, NIcon, NMenu, useMessage } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
 import {
+  Build,
+  BulbOutline,
   ChatboxEllipsesOutline,
-  ColorPaletteOutline,
   ColorWandSharp,
+  LanguageOutline,
   LogOutOutline,
 } from '@vicons/ionicons5'
 import { RouterLink, useRouter } from 'vue-router'
@@ -68,20 +70,53 @@ const menuOptions: MenuOption[] = [
         RouterLink,
         {
           to: {
-            name: 'Draw',
+            name: 'DevelopmentAssistance',
             params: {
             },
           },
         },
-        { default: () => '画图' },
+        { default: () => '程序猿专用' },
       ),
-    key: 'Draw',
-    icon: renderIcon(ColorPaletteOutline),
+    key: 'DevelopmentAssistance',
+    icon: renderIcon(BulbOutline),
   },
   {
     label: '工具',
     key: 'Tools',
-    icon: renderIcon(ColorWandSharp),
+    icon: renderIcon(Build),
+    children: [
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'CodeTransform',
+                params: {
+                },
+              },
+            },
+            { default: () => '代码转换' },
+          ),
+        key: 'CodeTransform',
+        icon: renderIcon(ColorWandSharp),
+      }, {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'LangTransform',
+                params: {
+                },
+              },
+            },
+            { default: () => '翻译' },
+          ),
+        key: 'LangTransform',
+        icon: renderIcon(LanguageOutline),
+      },
+    ],
   },
 ]
 

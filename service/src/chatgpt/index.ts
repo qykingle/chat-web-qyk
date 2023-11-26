@@ -26,22 +26,22 @@ const ErrorCodeMessage: Record<string, string> = {
 const timeoutMs: number = !isNaN(+process.env.TIMEOUT_MS) ? +process.env.TIMEOUT_MS : 100 * 1000
 const disableDebug: boolean = process.env.OPENAI_API_DISABLE_DEBUG === 'true'
 
-let apiModel: ApiModel
+let apiModel: ApiModel = 'ChatGPTAPI'
 const model = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL : 'gpt-3.5-turbo'
 
-if (!isNotEmptyString(process.env.OPENAI_API_KEY) && !isNotEmptyString(process.env.OPENAI_ACCESS_TOKEN))
-  throw new Error('Missing OPENAI_API_KEY or OPENAI_ACCESS_TOKEN environment variable')
+// if (!isNotEmptyString(process.env.OPENAI_API_KEY) && !isNotEmptyString(process.env.OPENAI_ACCESS_TOKEN))
+//   throw new Error('Missing OPENAI_API_KEY or OPENAI_ACCESS_TOKEN environment variable')
 
 let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 
-(async () => {
+const init = async (openAPIKey: string) => {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
 
-  if (isNotEmptyString(process.env.OPENAI_API_KEY)) {
+  if (isNotEmptyString(process.env.OPENAI_API_KEY || openAPIKey)) {
     const OPENAI_API_BASE_URL = process.env.OPENAI_API_BASE_URL
 
     const options: ChatGPTAPIOptions = {
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: process.env.OPENAI_API_KEY || openAPIKey,
       completionParams: { model },
       debug: !disableDebug,
     }
@@ -86,9 +86,12 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
     api = new ChatGPTUnofficialProxyAPI({ ...options })
     apiModel = 'ChatGPTUnofficialProxyAPI'
   }
-})()
+}
 
 async function chatReplyProcess(options: RequestOptions) {
+  if (!api)
+    await init(options.openAPIKey)
+
   const { message, lastContext, process, systemMessage, temperature, top_p } = options
   try {
     let options: SendMessageOptions = { timeoutMs }
