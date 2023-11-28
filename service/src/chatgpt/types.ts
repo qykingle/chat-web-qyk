@@ -9,6 +9,7 @@ export interface RequestOptions {
   temperature?: number
   top_p?: number
   openAPIKey?: string
+  token?: string
 }
 
 export interface SetProxyOptions {

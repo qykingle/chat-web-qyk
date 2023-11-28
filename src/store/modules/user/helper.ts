@@ -6,6 +6,7 @@ export interface UserInfo {
   avatar: string
   name: string
   password: string
+  token: string
   description: string
 }
 
@@ -20,6 +21,7 @@ export function defaultSetting(): UserState {
       name: 'QianYongKang',
       description: 'coding',
       password: '',
+      token: '',
     },
   }
 }

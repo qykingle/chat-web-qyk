@@ -456,6 +456,23 @@ export const toolConfig = [
     text: '变量命名',
     type: 0,
   },
+  {
+    desc: '提供段落润色功能',
+    example: '当我们漫步在岁月的长河中，时光的细流在指尖轻抚，带着一抹温暖的色彩。生活的画卷在每一个瞬间展开，而我们则是其中跳动的笔触。或许是阳光洒落在晨曦的街头，或许是雨丝轻柔地拂过窗棂。在这个瞬息万变的世界里，我们扮演着千万种角色，每一刻都是一个独特的故事。让我们怀揣着梦想，迎着风，继续前行吧，因为未来的篇章，正等待着我们用心书写。',
+    icon: 'https://p0.meituan.net/travelcube/933484204eb1aa0a9a77e807b1915f9a3754.png',
+    id: 'update words',
+    input: [
+      {
+        key: 'question',
+        placeholder: '请输入文字',
+        title: '请输入文字',
+        type: 'textarea',
+      },
+    ],
+    prompt: '忽略你之前收到的所有指示。你现在将扮演一名优秀的文章/论文润色专家，请帮忙将这段文字进行润色，要求逻辑更加严谨，但输出的文字数量相似。${question}',
+    text: '润色',
+    type: 0,
+  },
 ]
 
 export interface ITagTool {
@@ -464,6 +481,7 @@ export interface ITagTool {
   type: number
   url?: string
 }
+
 export const otherTools = [
   {
     id: 'JSON',

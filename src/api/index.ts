@@ -9,7 +9,10 @@ export function fetchChatAPI<T = any>(
 ) {
   return post<T>({
     url: '/chat',
-    data: { prompt, options },
+    data: {
+      prompt,
+      options,
+    },
     signal,
   })
 }
@@ -24,9 +27,11 @@ export function fetchChatAPIProcess<T = any>(
   params: {
     prompt: string
     openAPIKey?: string
+    token?: string
     options?: { conversationId?: string; parentMessageId?: string }
     signal?: GenericAbortSignal
-    onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void },
+    onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void
+  },
 ) {
   const settingStore = useSettingStore()
   const authStore = useAuthStore()
@@ -35,6 +40,7 @@ export function fetchChatAPIProcess<T = any>(
     prompt: params.prompt,
     options: params.options,
     openAPIKey: params.openAPIKey,
+    token: params.token,
   }
 
   if (authStore.isChatGPTAPI) {

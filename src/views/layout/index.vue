@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
-import { h, ref, watch } from 'vue'
+import { h, onBeforeMount, ref, watch } from 'vue'
 import { NAvatar, NDropdown, NIcon, NMenu, useMessage } from 'naive-ui'
 import type { MenuOption } from 'naive-ui'
 import {
@@ -39,6 +39,14 @@ const options = [{
 //     activeKey.value = name
 // }
 
+onBeforeMount(() => {
+  const { userInfo } = userStore
+  const { name, token, password } = userInfo
+  const flag = name && (password || token)
+  if (!flag)
+    router.push({ name: 'Login' })
+})
+
 watch(
   () => router.currentRoute.value.name,
   (value) => {
@@ -55,8 +63,7 @@ const menuOptions: MenuOption[] = [
         {
           to: {
             name: 'Chat',
-            params: {
-            },
+            params: {},
           },
         },
         { default: () => '聊天' },
@@ -71,8 +78,7 @@ const menuOptions: MenuOption[] = [
         {
           to: {
             name: 'DevelopmentAssistance',
-            params: {
-            },
+            params: {},
           },
         },
         { default: () => '程序猿专用' },
@@ -92,8 +98,7 @@ const menuOptions: MenuOption[] = [
             {
               to: {
                 name: 'CodeTransform',
-                params: {
-                },
+                params: {},
               },
             },
             { default: () => '代码转换' },
@@ -107,8 +112,7 @@ const menuOptions: MenuOption[] = [
             {
               to: {
                 name: 'LangTransform',
-                params: {
-                },
+                params: {},
               },
             },
             { default: () => '翻译' },
@@ -130,6 +134,7 @@ function handleSelect(key: string) {
     case 'logout':
       updateUserInfo({
         name: '',
+        password: '',
       })
       router.push({ name: 'Login' })
       break

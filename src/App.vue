@@ -20,8 +20,10 @@ router.beforeEach((to, from, next) => {
     next()
   }
   else {
-    const token = userStore.userInfo.name && userStore.userInfo.password
-    if (token) {
+    const { userInfo } = userStore
+    const { name, token, password } = userInfo
+    const flag = name && (password || token)
+    if (flag) {
       next()
     }
     else {

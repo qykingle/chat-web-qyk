@@ -111,6 +111,7 @@ async function onConversation() {
         prompt: message,
         options,
         openAPIKey: userStore.userInfo.password,
+        token: userStore.userInfo.token,
         signal: controller.signal,
         onDownloadProgress: ({ event }) => {
           const xhr = event.target
@@ -242,6 +243,8 @@ async function onRegenerate(index: number) {
       await fetchChatAPIProcess<Chat.ConversationResponse>({
         prompt: message,
         options,
+        openAPIKey: userStore.userInfo.password,
+        token: userStore.userInfo.token,
         signal: controller.signal,
         onDownloadProgress: ({ event }) => {
           const xhr = event.target

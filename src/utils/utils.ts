@@ -1,4 +1,3 @@
-// @ts-expect-error
 import endent from 'endent'
 
 export const createPrompt = (
@@ -48,7 +47,7 @@ export const createPrompt = (
   }
   else {
     return endent`
-      You are an expert programmer in all programming languages. Translate the "${inputLanguage}" code to "${outputLanguage}" code. Do not include \`\`\`.
+      You are an expert programmer in all programming languages. Translate the "${inputLanguage}" code to "${outputLanguage}" code.请直接输出源码字符串，不需要使用markdown语言对结果进行优化。
 
       Example translating from JavaScript to Python:
 
@@ -58,6 +57,10 @@ export const createPrompt = (
       }
 
       Python code:
+      for i in range(10):
+        print(i)
+
+      Output Example:
       for i in range(10):
         print(i)
 
@@ -71,7 +74,7 @@ export const createPrompt = (
 
 export function generatePrompts(sourceLang: string, targetLang: string, text: string) {
   return endent`
-      You are a translator, translate directly without explanation.Translate the "${sourceLang}" language to "${targetLang}" language.
+      You are a translator, translate directly without explanation.Translate the "${sourceLang}" language to "${targetLang}" language.请直接进行翻译，不需要解释。
 
       Example translating from English to Simplified Chinese:
 

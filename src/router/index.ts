@@ -7,6 +7,10 @@ import { ChatLayout } from '@/views/chat/layout'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    redirect: '/chat',
+  },
+  {
+    path: '/chat',
     name: 'Root',
     component: ChatLayout,
     children: [

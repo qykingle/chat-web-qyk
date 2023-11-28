@@ -34,7 +34,7 @@ const model = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENA
 
 let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
 
-const init = async (openAPIKey: string) => {
+const init = async (openAPIKey: string, token: string) => {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
 
   if (isNotEmptyString(process.env.OPENAI_API_KEY || openAPIKey)) {
@@ -74,8 +74,9 @@ const init = async (openAPIKey: string) => {
     apiModel = 'ChatGPTAPI'
   }
   else {
+    console.log(token)
     const options: ChatGPTUnofficialProxyAPIOptions = {
-      accessToken: process.env.OPENAI_ACCESS_TOKEN,
+      accessToken: token || process.env.OPENAI_ACCESS_TOKEN,
       apiReverseProxyUrl: isNotEmptyString(process.env.API_REVERSE_PROXY) ? process.env.API_REVERSE_PROXY : 'https://ai.fakeopen.com/api/conversation',
       model,
       debug: !disableDebug,
@@ -89,8 +90,9 @@ const init = async (openAPIKey: string) => {
 }
 
 async function chatReplyProcess(options: RequestOptions) {
+  console.log(options)
   if (!api)
-    await init(options.openAPIKey)
+    await init(options.openAPIKey, options.token)
 
   const { message, lastContext, process, systemMessage, temperature, top_p } = options
   try {

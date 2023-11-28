@@ -33,6 +33,7 @@ const fetchChatAPIOnce = async (prompt: string) => {
     prompt,
     options: {},
     openAPIKey: userStore.userInfo.password,
+    token: userStore.userInfo.token,
     signal: controller.signal,
     onDownloadProgress: ({ event }) => {
       const xhr = event.target

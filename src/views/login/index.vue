@@ -12,20 +12,27 @@ const ms = useMessage()
 
 const value = ref('QianYongKang')
 const password = ref('')
+const token = ref('')
 const loading = ref(false)
 
 function goChat() {
   loading.value = true
   setTimeout(() => {
     loading.value = false
-    const isValidPassword = (/^[A-Za-z0-9\-]+$/).test(password.value)
-    if (!isValidPassword) {
-      ms.error(t('common.passwordError'))
-      return
+    if (!password.value && !token.value)
+      ms.error('密钥和token必须填一个')
+
+    if (password.value) {
+      const isValidPassword = (/^[A-Za-z0-9\-]+$/).test(password.value)
+      if (!isValidPassword) {
+        ms.error(t('common.passwordError'))
+        return
+      }
     }
     updateUserInfo({
       name: value.value,
       password: password.value,
+      token: token.value,
     })
     router.push({
       path: '/chat',
@@ -36,6 +43,10 @@ function goChat() {
 function updateUserInfo(options: Partial<UserInfo>) {
   userStore.updateUserInfo(options)
   ms.success(t('common.success'))
+}
+
+function handleGetToken() {
+  window.open('https://chat.openai.com/api/auth/session', '_blank')
 }
 </script>
 
@@ -62,12 +73,24 @@ function updateUserInfo(options: Partial<UserInfo>) {
         </NInputGroup>
         <NInputGroup class="mt-4 mb-4">
           <NInputGroupLabel size="large">
-            密码
+            密钥
           </NInputGroupLabel>
           <NInput
             v-model:value="password" size="large" type="password" placeholder="请输入OpenAI API Key"
             show-password-on="mousedown"
           />
+        </NInputGroup>
+        <NInputGroup class="mb-4">
+          <NInputGroupLabel size="large">
+            token
+          </NInputGroupLabel>
+          <NInput
+            v-model:value="token" size="large" type="password" placeholder="请输入chatGPT的token"
+            show-password-on="mousedown"
+          />
+          <NButton size="large" type="primary" ghost @click="handleGetToken">
+            获取accessToken
+          </NButton>
         </NInputGroup>
         <NButton :loading="loading" size="large" class="button" type="primary" @click="goChat">
           登录
