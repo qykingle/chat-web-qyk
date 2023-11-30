@@ -88,9 +88,9 @@ function handleGetToken() {
             v-model:value="token" size="large" type="password" placeholder="请输入chatGPT的token"
             show-password-on="mousedown"
           />
-          <NButton size="large" type="primary" ghost @click="handleGetToken">
-            获取accessToken
-          </NButton>
+          <!--          <NButton size="large" type="primary" ghost @click="handleGetToken"> -->
+          <!--            获取accessToken -->
+          <!--          </NButton> -->
         </NInputGroup>
         <NButton :loading="loading" size="large" class="button" type="primary" @click="goChat">
           登录

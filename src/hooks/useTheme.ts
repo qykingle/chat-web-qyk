@@ -25,7 +25,14 @@ export function useTheme() {
         common: {},
       }
     }
-    return {}
+    return {
+      common: {
+        primaryColor: '#2a80eb',
+        primaryColorHover: '#2a80eb',
+        successColor: '#2a80eb',
+        primaryColorPressed: '#1cad70',
+      },
+    }
   })
 
   watch(

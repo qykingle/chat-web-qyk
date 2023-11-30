@@ -74,7 +74,6 @@ const init = async (openAPIKey: string, token: string) => {
     apiModel = 'ChatGPTAPI'
   }
   else {
-    console.log(token)
     const options: ChatGPTUnofficialProxyAPIOptions = {
       accessToken: token || process.env.OPENAI_ACCESS_TOKEN,
       apiReverseProxyUrl: isNotEmptyString(process.env.API_REVERSE_PROXY) ? process.env.API_REVERSE_PROXY : 'https://ai.fakeopen.com/api/conversation',
@@ -90,7 +89,6 @@ const init = async (openAPIKey: string, token: string) => {
 }
 
 async function chatReplyProcess(options: RequestOptions) {
-  console.log(options)
   if (!api)
     await init(options.openAPIKey, options.token)
 

@@ -484,13 +484,16 @@ onUnmounted(() => {
       <div id="scrollRef" ref="scrollRef" class="h-full overflow-hidden overflow-y-auto">
         <div
           id="image-wrapper"
-          class="w-full max-w-screen-xl m-auto dark:bg-[#101014]"
+          class="w-full h-full max-w-screen-xl m-auto dark:bg-[#101014]"
           :class="[isMobile ? 'p-2' : 'p-4']"
         >
           <template v-if="!dataSources.length">
-            <div class="flex items-center justify-center mt-4 text-center text-neutral-300">
-              <SvgIcon icon="ri:bubble-chart-fill" class="mr-2 text-3xl" />
-              <span>Aha~</span>
+            <div class="flex h-full  items-center justify-center mt-4 text-center text-neutral-600 flex-col">
+              <!--              <SvgIcon icon="ri:bubble-chart-fill" class="mr-2 text-5xl" /> -->
+              <img class="h-12 w-12" src="/favicon.svg">
+              <div class="text-2xl mt-4">
+                How can I help you today?
+              </div>
             </div>
           </template>
           <template v-else>
@@ -533,7 +536,7 @@ onUnmounted(() => {
             </span>
           </HoverButton>
           <HoverButton @click="toggleUsingContext">
-            <span class="text-xl" :class="{ 'text-[#4b9e5f]': usingContext, 'text-[#a8071a]': !usingContext }">
+            <span class="text-xl" :class="{ 'text-[#2a80eb]': usingContext, 'text-[#a8071a]': !usingContext }">
               <SvgIcon icon="ri:chat-history-line" />
             </span>
           </HoverButton>

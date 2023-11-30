@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { NAvatar, NDivider, NEllipsis, NInput, NModal, NTag, useMessage } from 'naive-ui'
+import { NAvatar, NDivider, NEllipsis, NModal, NTag, useMessage } from 'naive-ui'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useChatStore } from '@/store'
 import type { ITagTool } from '@/constants'
 import { otherTools, toolConfig } from '@/constants'
+
 const message = useMessage()
 const showModal = ref(false)
 const value = ref('')
 const selectedItem = ref({} as SQLQueryDefinition)
 const chatStore = useChatStore()
-
 const tageType = ['default', 'primary', 'info', 'success', 'warning', 'error']
 
 // 生成一个start到end之间的随机整数
@@ -48,6 +48,7 @@ function onNegativeClick() {
   message.success('Cancel')
   showModal.value = false
 }
+
 function onPositiveClick() {
   const text = selectedItem.value.prompt.replace(`${selectedItem.value?.input?.[0]?.key}`, value.value)
   router.push({
@@ -75,7 +76,10 @@ const handleTagClick = (tag: ITagTool) => {
 
 <template>
   <div class="p-16 flex flex-wrap ">
-    <div v-for="item in toolConfig" :key="item.id" class="flex p-4 border rounded-lg m-3  items-center w-[450px] cursor-pointer" @click="() => handleClick(item)">
+    <div
+      v-for="item in toolConfig" :key="item.id"
+      class="flex p-4 border rounded-lg m-3  items-center w-[450px] cursor-pointer" @click="() => handleClick(item)"
+    >
       <NAvatar
         round
         :size="120"
@@ -108,13 +112,7 @@ const handleTagClick = (tag: ITagTool) => {
     @positive-click="onPositiveClick"
     @negative-click="onNegativeClick"
   >
-    <NInput
-      v-model:value="value"
-      class="h-[130px]"
-      type="textarea"
-      :placeholder="placeholder"
-      clearable
-    />
+    <textarea v-model="value" :placeholder="placeholder" class="ui-textarea h-[100px]" rows="7 " />
     <div class="p-3">
       {{ selectedItem.example }}
     </div>

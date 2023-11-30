@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import classNames from 'classnames'
 import { ref, shallowRef } from 'vue'
 import { Codemirror } from 'vue-codemirror'
 import { javascript } from '@codemirror/lang-javascript'
-import { NButton, NSelect, useMessage } from 'naive-ui'
+import { useMessage } from 'naive-ui'
 import { copyToClip } from '@/utils/copy'
 import { generatePrompts } from '@/utils/utils'
 import { fetchChatAPIProcess } from '@/api'
@@ -99,16 +100,21 @@ const handleCopy = () => {
       <div class="mb-4">
         AI Language Translator
       </div>
-      <NButton :loading="loading" :on-click="handleTransform" class="w-10" size="large" type="primary">
+
+      <button type="primary" :class="classNames('ui-button', { loading })" @click="handleTransform">
         开始翻译
-      </NButton>
+      </button>
     </div>
     <div class="w-[80%] flex">
       <div class="w-[50%]">
         <div class="text-center text-xl font-bold">
           Input
         </div>
-        <NSelect v-model:value="transformFrom" filterable class="mb-4 mt-4" :options="options" />
+        <select is="ui-select" v-model="transformFrom" class="mb-4 mt-4">
+          <option v-for="option in options" :key="option.value" :value="option.value">
+            {{ option.label }}
+          </option>
+        </select>
         <Codemirror
           v-model="sourceLang"
           placeholder="Code goes here..."
@@ -123,19 +129,18 @@ const handleCopy = () => {
         <div class="text-center text-xl font-bold">
           Output
         </div>
-        <NSelect v-model:value="transformTo" filterable class="mb-4 mt-4" :options="options" />
+        <select is="ui-select" v-model="transformTo" class="mb-4 mt-4">
+          <option v-for="option in options" :key="option.value" :value="option.value">
+            {{ option.label }}
+          </option>
+        </select>
         <div class="relative">
           <div
             class="absolute right-0 top-0 z-30"
           >
-            <NButton
-              :disabled="!transformToCode"
-              size="small"
-              type="info"
-              :on-click="handleCopy"
-            >
+            <a type="primary" :class="classNames('ui-button h-4', { disabled: !transformToCode })" @click="handleCopy">
               复制
-            </NButton>
+            </a>
           </div>
           <Codemirror
             v-model="transformToCode"
