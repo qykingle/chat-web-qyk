@@ -459,7 +459,7 @@ export const toolConfig = [
   {
     desc: '提供段落润色功能',
     example: '当我们漫步在岁月的长河中，时光的细流在指尖轻抚，带着一抹温暖的色彩。生活的画卷在每一个瞬间展开，而我们则是其中跳动的笔触。或许是阳光洒落在晨曦的街头，或许是雨丝轻柔地拂过窗棂。在这个瞬息万变的世界里，我们扮演着千万种角色，每一刻都是一个独特的故事。让我们怀揣着梦想，迎着风，继续前行吧，因为未来的篇章，正等待着我们用心书写。',
-    icon: 'https://p0.meituan.net/travelcube/933484204eb1aa0a9a77e807b1915f9a3754.png',
+    icon: 'https://img.88icon.com/download/jpg/20200717/6a2b618e7cfe5886076291289bb27d30_512_512.jpg!bg',
     id: 'update words',
     input: [
       {

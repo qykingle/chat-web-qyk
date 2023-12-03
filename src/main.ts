@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
 import { basicSetup } from 'codemirror'
 import VueCodemirror from 'vue-codemirror'
+import { setupAssets, setupScrollbarStyle } from '../plugins'
 import App from './App.vue'
 import { setupI18n } from './locales'
-import { setupAssets, setupScrollbarStyle } from './plugins'
 import { setupStore } from './store'
 import { setupRouter } from './router'
 

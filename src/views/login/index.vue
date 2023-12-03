@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { NButton, NGradientText, NInput, NInputGroup, NInputGroupLabel, useMessage } from 'naive-ui'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { UserInfo } from '@/store/modules/user/helper'
 import { t } from '@/locales'
@@ -14,6 +14,11 @@ const value = ref('QianYongKang')
 const password = ref('')
 const token = ref('')
 const loading = ref(false)
+
+onMounted(() => {
+  // 设置标题为登录
+  document.title = '登录'
+})
 
 function goChat() {
   loading.value = true
@@ -56,6 +61,7 @@ function handleGetToken() {
       <div class="flex items-center mb-4">
         <img class="h-12 w-12" src="/favicon.svg">
         <NGradientText
+          id="login-title"
           class="text-[32px] ml-4" :gradient="{
             from: 'rgb(85, 85, 85)',
             to: 'rgb(170, 170, 170)',
@@ -69,30 +75,19 @@ function handleGetToken() {
           <NInputGroupLabel size="large">
             用户
           </NInputGroupLabel>
-          <NInput v-model:value="value" size="large" placeholder="请输入用户名" />
+          <NInput id="user-name" v-model:value="value" size="large" placeholder="请输入用户名" />
         </NInputGroup>
         <NInputGroup class="mt-4 mb-4">
           <NInputGroupLabel size="large">
             密钥
           </NInputGroupLabel>
           <NInput
+            id="user-password"
             v-model:value="password" size="large" type="password" placeholder="请输入OpenAI API Key"
             show-password-on="mousedown"
           />
         </NInputGroup>
-        <NInputGroup class="mb-4">
-          <NInputGroupLabel size="large">
-            token
-          </NInputGroupLabel>
-          <NInput
-            v-model:value="token" size="large" type="password" placeholder="请输入chatGPT的token"
-            show-password-on="mousedown"
-          />
-          <!--          <NButton size="large" type="primary" ghost @click="handleGetToken"> -->
-          <!--            获取accessToken -->
-          <!--          </NButton> -->
-        </NInputGroup>
-        <NButton :loading="loading" size="large" class="button" type="primary" @click="goChat">
+        <NButton id="login-button" :loading="loading" size="large" class="button" type="primary" @click="goChat">
           登录
         </NButton>
       </div>

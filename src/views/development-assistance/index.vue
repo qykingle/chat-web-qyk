@@ -78,7 +78,7 @@ const handleTagClick = (tag: ITagTool) => {
   <div class="p-16 flex flex-wrap ">
     <div
       v-for="item in toolConfig" :key="item.id"
-      class="flex p-4 border rounded-lg m-3  items-center w-[450px] cursor-pointer" @click="() => handleClick(item)"
+      class="hover:border-blue-500 hover:bg-[#f7f9fa] flex p-4 border rounded-lg m-3  items-center w-[450px] cursor-pointer" @click="() => handleClick(item)"
     >
       <NAvatar
         round
