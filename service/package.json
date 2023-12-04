@@ -14,10 +14,10 @@
     "node": "^16 || ^18 || ^19"
   },
   "scripts": {
-    "start": "esno ./src/index.ts",
-    "dev": "esno watch ./src/index.ts",
+    "start": "esno index.js",
+    "dev": "esno watch index.js",
     "prod": "node ./build/index.mjs",
-    "build": "pnpm clean && tsup && pnpm prod",
+    "build": "node index.js",
     "clean": "rimraf build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

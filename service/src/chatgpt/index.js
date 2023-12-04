@@ -1,20 +1,17 @@
 import * as dotenv from 'dotenv'
 import 'isomorphic-fetch'
-import type { ChatGPTAPIOptions, ChatMessage, SendMessageOptions } from 'chatgpt'
 import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt'
 import { SocksProxyAgent } from 'socks-proxy-agent'
 import httpsProxyAgent from 'https-proxy-agent'
 import fetch from 'node-fetch'
 import { sendResponse } from '../utils'
 import { isNotEmptyString } from '../utils/is'
-import type { ApiModel, ChatContext, ChatGPTUnofficialProxyAPIOptions, ModelConfig } from '../types'
-import type { RequestOptions, SetProxyOptions, UsageResponse } from './types'
 
 const { HttpsProxyAgent } = httpsProxyAgent
 
 dotenv.config()
 
-const ErrorCodeMessage: Record<string, string> = {
+const ErrorCodeMessage = {
   401: '[OpenAI] 提供错误的API密钥 | Incorrect API key provided',
   403: '[OpenAI] 服务器拒绝访问，请稍后再试 | Server refused to access, please try again later',
   502: '[OpenAI] 错误的网关 |  Bad Gateway',
@@ -23,24 +20,24 @@ const ErrorCodeMessage: Record<string, string> = {
   500: '[OpenAI] 服务器繁忙，请稍后再试 | Internal Server Error',
 }
 
-const timeoutMs: number = !isNaN(+process.env.TIMEOUT_MS) ? +process.env.TIMEOUT_MS : 100 * 1000
-const disableDebug: boolean = process.env.OPENAI_API_DISABLE_DEBUG === 'true'
+const timeoutMs = !isNaN(+process.env.TIMEOUT_MS) ? +process.env.TIMEOUT_MS : 100 * 1000
+const disableDebug = process.env.OPENAI_API_DISABLE_DEBUG === 'true'
 
-let apiModel: ApiModel = 'ChatGPTAPI'
+let apiModel = 'ChatGPTAPI'
 const model = isNotEmptyString(process.env.OPENAI_API_MODEL) ? process.env.OPENAI_API_MODEL : 'gpt-3.5-turbo'
 
 // if (!isNotEmptyString(process.env.OPENAI_API_KEY) && !isNotEmptyString(process.env.OPENAI_ACCESS_TOKEN))
 //   throw new Error('Missing OPENAI_API_KEY or OPENAI_ACCESS_TOKEN environment variable')
 
-let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
+let api
 
-const init = async (openAPIKey: string, token: string) => {
+const init = async (openAPIKey, token) => {
   // More Info: https://github.com/transitive-bullshit/chatgpt-api
 
   if (isNotEmptyString(process.env.OPENAI_API_KEY || openAPIKey)) {
     const OPENAI_API_BASE_URL = process.env.OPENAI_API_BASE_URL
 
-    const options: ChatGPTAPIOptions = {
+    const options = {
       apiKey: process.env.OPENAI_API_KEY || openAPIKey,
       completionParams: { model },
       debug: !disableDebug,
@@ -74,7 +71,7 @@ const init = async (openAPIKey: string, token: string) => {
     apiModel = 'ChatGPTAPI'
   }
   else {
-    const options: ChatGPTUnofficialProxyAPIOptions = {
+    const options = {
       accessToken: token || process.env.OPENAI_ACCESS_TOKEN,
       apiReverseProxyUrl: isNotEmptyString(process.env.API_REVERSE_PROXY) ? process.env.API_REVERSE_PROXY : 'https://ai.fakeopen.com/api/conversation',
       model,
@@ -88,13 +85,13 @@ const init = async (openAPIKey: string, token: string) => {
   }
 }
 
-async function chatReplyProcess(options: RequestOptions) {
+async function chatReplyProcess(options) {
   if (!api)
     await init(options.openAPIKey, options.token)
 
   const { message, lastContext, process, systemMessage, temperature, top_p } = options
   try {
-    let options: SendMessageOptions = { timeoutMs }
+    let options = { timeoutMs }
 
     if (apiModel === 'ChatGPTAPI') {
       if (isNotEmptyString(systemMessage))
@@ -118,7 +115,7 @@ async function chatReplyProcess(options: RequestOptions) {
 
     return sendResponse({ type: 'Success', data: response })
   }
-  catch (error: any) {
+  catch (error) {
     const code = error.statusCode
     global.console.log(error)
     if (Reflect.has(ErrorCodeMessage, code))
@@ -148,7 +145,7 @@ async function fetchUsage() {
     'Content-Type': 'application/json',
   }
 
-  const options = {} as SetProxyOptions
+  const options = {}
 
   setupProxy(options)
 
@@ -157,7 +154,7 @@ async function fetchUsage() {
     const useResponse = await options.fetch(urlUsage, { headers })
     if (!useResponse.ok)
       throw new Error('获取使用量失败')
-    const usageData = await useResponse.json() as UsageResponse
+    const usageData = await useResponse.json()
     const usage = Math.round(usageData.total_usage) / 100
     return Promise.resolve(usage ? `$${usage}` : '-')
   }
@@ -167,7 +164,7 @@ async function fetchUsage() {
   }
 }
 
-function formatDate(): string[] {
+function formatDate() {
   const today = new Date()
   const year = today.getFullYear()
   const month = today.getMonth() + 1
@@ -184,13 +181,13 @@ async function chatConfig() {
   const socksProxy = (process.env.SOCKS_PROXY_HOST && process.env.SOCKS_PROXY_PORT)
     ? (`${process.env.SOCKS_PROXY_HOST}:${process.env.SOCKS_PROXY_PORT}`)
     : '-'
-  return sendResponse<ModelConfig>({
+  return sendResponse({
     type: 'Success',
     data: { apiModel, reverseProxy, timeoutMs, socksProxy, httpsProxy, usage },
   })
 }
 
-function setupProxy(options: SetProxyOptions) {
+function setupProxy(options) {
   if (isNotEmptyString(process.env.SOCKS_PROXY_HOST) && isNotEmptyString(process.env.SOCKS_PROXY_PORT)) {
     const agent = new SocksProxyAgent({
       hostname: process.env.SOCKS_PROXY_HOST,
@@ -218,10 +215,8 @@ function setupProxy(options: SetProxyOptions) {
   }
 }
 
-function currentModel(): ApiModel {
+function currentModel() {
   return apiModel
 }
-
-export type { ChatContext, ChatMessage }
 
 export { chatReplyProcess, chatConfig, currentModel }

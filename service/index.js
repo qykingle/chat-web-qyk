@@ -1,10 +1,8 @@
 import express from 'express'
-import type { RequestProps } from './types'
-import type { ChatMessage } from './chatgpt'
-import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
-import { auth } from './middleware/auth'
-import { limiter } from './middleware/limiter'
-import { isNotEmptyString } from './utils/is'
+import { chatConfig, chatReplyProcess, currentModel } from './src/chatgpt'
+import { auth } from './src/middleware/auth'
+import { limiter } from './src/middleware/limiter'
+import { isNotEmptyString } from './src/utils/is'
 
 const app = express()
 const router = express.Router()
@@ -23,14 +21,14 @@ router.post('/chat-process', [auth, limiter], async (req, res) => {
   res.setHeader('Content-type', 'application/octet-stream')
 
   try {
-    const { prompt, options = {}, systemMessage, temperature, top_p, openAPIKey, token } = req.body as RequestProps
+    const { prompt, options = {}, systemMessage, temperature, top_p, openAPIKey, token } = req.body
     let firstChunk = true
     await chatReplyProcess({
       message: prompt,
       openAPIKey,
       token,
       lastContext: options,
-      process: (chat: ChatMessage) => {
+      process: (chat) => {
         res.write(firstChunk ? JSON.stringify(chat) : `\n${JSON.stringify(chat)}`)
         firstChunk = false
       },
@@ -70,7 +68,7 @@ router.post('/session', async (req, res) => {
 
 router.post('/verify', async (req, res) => {
   try {
-    const { token } = req.body as { token: string }
+    const { token } = req.body
     if (!token)
       throw new Error('Secret key is empty')
 

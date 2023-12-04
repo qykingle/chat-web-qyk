@@ -1,10 +1,4 @@
-interface SendResponseOptions<T = any> {
-  type: 'Success' | 'Fail'
-  message?: string
-  data?: T
-}
-
-export function sendResponse<T>(options: SendResponseOptions<T>) {
+export function sendResponse(options) {
   if (options.type === 'Success') {
     return Promise.resolve({
       message: options.message ?? null,
