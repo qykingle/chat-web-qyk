@@ -84,6 +84,10 @@ router.post('/verify', async (req, res) => {
   }
 })
 
+router.get('/hello-world', (request, response) => {
+  response.send('Hello World!')
+})
+
 app.use('', router)
 app.use('/api', router)
 app.set('trust proxy', 1)
